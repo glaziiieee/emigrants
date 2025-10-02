@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { addEmigrant, getEmigrants, updateEmigrant, deleteEmigrant } from './services/emigrantService';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from 'recharts';
+import {
+  addEmigrant,
+  getEmigrants,
+  updateEmigrant,
+  deleteEmigrant,
+} from "./services/emigrantServices";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 
 function App() {
   const [emigrants, setEmigrants] = useState([]);
@@ -11,7 +25,7 @@ function App() {
     widower: "",
     separated: "",
     divorced: "",
-    notReported: ""
+    notReported: "",
   });
 
   // Fetch data
@@ -36,9 +50,17 @@ function App() {
       widower: Number(form.widower) || 0,
       separated: Number(form.separated) || 0,
       divorced: Number(form.divorced) || 0,
-      notReported: Number(form.notReported) || 0
+      notReported: Number(form.notReported) || 0,
     });
-    setForm({ year: "", single: "", married: "", widower: "", separated: "", divorced: "", notReported: "" });
+    setForm({
+      year: "",
+      single: "",
+      married: "",
+      widower: "",
+      separated: "",
+      divorced: "",
+      notReported: "",
+    });
     fetchData();
   };
 
@@ -56,15 +78,25 @@ function App() {
   };
 
   // Compute totals for bar chart
-  const totals = emigrants.reduce((acc, cur) => {
-    acc.single += cur.single || 0;
-    acc.married += cur.married || 0;
-    acc.widower += cur.widower || 0;
-    acc.separated += cur.separated || 0;
-    acc.divorced += cur.divorced || 0;
-    acc.notReported += cur.notReported || 0;
-    return acc;
-  }, { single: 0, married: 0, widower: 0, separated: 0, divorced: 0, notReported: 0 });
+  const totals = emigrants.reduce(
+    (acc, cur) => {
+      acc.single += cur.single || 0;
+      acc.married += cur.married || 0;
+      acc.widower += cur.widower || 0;
+      acc.separated += cur.separated || 0;
+      acc.divorced += cur.divorced || 0;
+      acc.notReported += cur.notReported || 0;
+      return acc;
+    },
+    {
+      single: 0,
+      married: 0,
+      widower: 0,
+      separated: 0,
+      divorced: 0,
+      notReported: 0,
+    }
+  );
 
   const chartData = [
     { category: "Single", count: totals.single },
@@ -80,7 +112,7 @@ function App() {
       <h1>Filipino Emigrants CRUD</h1>
 
       <div>
-        {Object.keys(form).map(key => (
+        {Object.keys(form).map((key) => (
           <input
             key={key}
             name={key}
@@ -108,7 +140,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {emigrants.map(e => (
+          {emigrants.map((e) => (
             <tr key={e.id}>
               <td>{e.year || 0}</td>
               <td>{e.single || 0}</td>
@@ -128,7 +160,10 @@ function App() {
 
       <h2>Total Emigrants by Category</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <BarChart
+          data={chartData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="category" />
           <YAxis />
