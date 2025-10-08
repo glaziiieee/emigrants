@@ -63,7 +63,7 @@ function App() {
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login Error:", error);
     }
   };
 
