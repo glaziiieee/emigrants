@@ -29,7 +29,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [emigrants, setEmigrants] = useState([]);
   const [form, setForm] = useState({
-    name: "",
+    year: "",
     single: "",
     married: "",
     widower: "",
@@ -81,14 +81,14 @@ function App() {
   };
 
   const handleAdd = async () => {
-    if (!form.name) {
-      alert("Please enter a name");
+    if (!form.year) {
+      alert("Please enter a year");
       return;
     }
 
     if (editingId) {
       await updateEmigrant(editingId, {
-        name: form.name,
+        year: Number(form.year) || 0,
         single: Number(form.single) || 0,
         married: Number(form.married) || 0,
         widower: Number(form.widower) || 0,
@@ -99,7 +99,7 @@ function App() {
       setEditingId(null);
     } else {
       await addEmigrant({
-        name: form.name,
+        year: Number(form.year) || 0,
         single: Number(form.single) || 0,
         married: Number(form.married) || 0,
         widower: Number(form.widower) || 0,
@@ -110,7 +110,7 @@ function App() {
     }
 
     setForm({
-      name: "",
+      year: "",
       single: "",
       married: "",
       widower: "",
@@ -130,7 +130,7 @@ function App() {
 
   const handleEdit = (emigrant) => {
     setForm({
-      name: emigrant.name || "",
+      year: emigrant.year || "",
       single: emigrant.single || "",
       married: emigrant.married || "",
       widower: emigrant.widower || "",
@@ -212,13 +212,13 @@ function App() {
             {editingId ? "Edit Emigrant Record" : "Add New Emigrant Record"}
           </h2>
           <div className="form-grid">
-            <div className="form-group full-width">
-              <label>Name:</label>
+            <div className="form-group">
+              <label>Year:</label>
               <input
-                type="text"
-                name="name"
-                placeholder="Enter name"
-                value={form.name}
+                type="number"
+                name="year"
+                placeholder="Enter year"
+                value={form.year}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -305,7 +305,7 @@ function App() {
               onClick={() => {
                 setEditingId(null);
                 setForm({
-                  name: "",
+                  year: "",
                   single: "",
                   married: "",
                   widower: "",
@@ -340,7 +340,7 @@ function App() {
               <tbody>
                 {emigrants.map((e) => (
                   <tr key={e.id}>
-                    <td>{e.name || "N/A"}</td>
+                    <td>{e.year || 0}</td>
                     <td>{e.single || 0}</td>
                     <td>{e.married || 0}</td>
                     <td>{e.widower || 0}</td>
